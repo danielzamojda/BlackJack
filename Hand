@@ -1,0 +1,71 @@
+import java.util.*;
+public class Hand
+{
+  Deck deck= new Deck();
+  ArrayList<Card> PlayerHand = new ArrayList<Card>();
+  ArrayList<Card> DealerHand = new ArrayList<Card>();
+  
+  public Hand()
+  {
+      deck.shuffle();
+      for(int i=0; i<2; i++)
+    {
+      PlayerHand.add(deck.deal());
+      DealerHand.add(deck.deal());
+    }
+    
+  } 
+   public String showDealer()
+  {
+    return (DealerHand.get(0)).toString();  
+  }
+  public String showPlayerHand()
+  {
+    return (PlayerHand.get(0)).toString()+" and "+(PlayerHand.get(1)).toString();
+  }  
+  public Card PlayerCard()
+  {
+      int a = PlayerHand.size()-1;
+      return PlayerHand.get(a);  
+  }
+  public Card DealerCard()
+  {
+     int a = DealerHand.size()-1;
+     return DealerHand.get(a); 
+  }
+  public String PlayerHitShow()
+  {
+    int a = PlayerHand.size()-1;
+    return PlayerHand.get(a).toString();
+  }
+  public String DealerHitShow()
+  {
+    int a = DealerHand.size()-1;
+    return DealerHand.get(a).toString();
+  }
+    public void PlayerHit()
+  {
+    PlayerHand.add(deck.deal());  
+  }
+  public void DealerHit()
+  {
+    DealerHand.add(deck.deal());  
+  }
+  public int calcPoints()
+  { int points = 0;
+    for(Card x: PlayerHand)
+    {
+      points += x.calcPointVal();  
+    }
+    return points;
+  }
+  public int calcDealerPoints()
+  {
+    int points = 0;
+    for(Card x: DealerHand)
+    {
+      points += x.calcPointVal();  
+    }
+    return points;
+  }
+}
