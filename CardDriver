@@ -1,0 +1,105 @@
+import java.util.*;
+public class CardDriver
+{
+    public static void main (String[] args)
+    {
+        
+        Hand game;
+        final int STAND = 17;
+        final int WIN = 21;
+        int PlayerScore;
+        int DealerScore;
+        Scanner scan= new Scanner(System.in);
+        boolean playing = true;
+        boolean Playerplay = true;
+        int bet;
+        int money = 100;
+        boolean playerWin = true;
+        
+        System.out.println("Lets Play BlackJack");
+        System.out.println("Dealer hits on 16, stays on 17");
+        System.out.println("You start with $100");
+        
+        while (playing)
+        {
+            game = new Hand();
+            PlayerScore = game.calcPoints();
+            DealerScore = game.calcDealerPoints();
+            System.out.println("You have " + money + " to bet");
+            System.out.println("How much would you like to bet?");
+            bet = scan.nextInt();
+            while(bet>money)
+            {
+                System.out.println("You don't have enough money. \nHow much would you like to bet?");
+                bet = scan.nextInt();
+            }
+            System.out.println("Dealer has "+game.showDealer()+" and an unknown card");
+            System.out.println("You have "+game.showPlayerHand()+" for "+ PlayerScore+" points");
+           
+            while(Playerplay)
+                {
+                 if (PlayerScore== WIN) 
+                 {
+                     Playerplay = false;
+                 }    
+                 if(PlayerScore<WIN)
+                    {
+                        System.out.println("Enter 'Hit' to hit or 'stay' to stay");
+                        String x = scan.nextLine();
+                        
+                        if (x.equalsIgnoreCase("Hit")) 
+                        {
+                            game.PlayerHit();
+                            if(game.PlayerCard().getValue().equals("Ace") && PlayerScore>10)PlayerScore++;  
+                            else 
+                            {
+                             PlayerScore += (game.PlayerCard()).calcPointVal();
+                            }
+                            System.out.println("You hit a "+game.PlayerHitShow()+" for "+PlayerScore+" points total");
+                        }
+                        else if(x.equalsIgnoreCase("Stay"))Playerplay = false;
+                    }
+                 else if(PlayerScore>WIN)
+                 {
+                     Playerplay = true;
+                     playerWin = false;
+                     break;
+                 }
+                }
+
+        System.out.println("Dealer had a "+game.DealerHitShow()+"  face-down for "+ DealerScore +" points");
+        
+        while(Playerplay == false)
+        {
+          if (DealerScore<STAND) 
+          {
+            game.DealerHit(); 
+            if (game.DealerCard().getValue() == "Ace")
+            {if (DealerScore>10) DealerScore++;}
+            else 
+            {DealerScore += (game.DealerCard()).calcPointVal();
+            System.out.println("Dealer hit for a "+game.DealerHitShow()+" for "+DealerScore+" points");
+            }
+          }
+          else Playerplay = true;
+          if (DealerScore>WIN)playerWin = true;
+          else if ( DealerScore > PlayerScore && DealerScore <= WIN) playerWin = false;
+          else if (PlayerScore > DealerScore && PlayerScore <= WIN)  playerWin = true;
+          else if (PlayerScore == DealerScore) playerWin = false;
+          else if(PlayerScore>WIN) playerWin = false;
+        }
+        if(playerWin)
+          {System.out.println("You Win!");
+          money+=bet;}
+          else if(playerWin == false)
+          {System.out.println("You Lose!");
+          money-=bet;}
+          if(money<=0){System.out.println("You are out of money!");break;}
+         
+          System.out.println("Would you like to keep playing?");
+          String s = scan.nextLine();
+          if(s.equalsIgnoreCase("no"))playing = false;
+          else if(s.equalsIgnoreCase("yes")) playing = true;
+        }
+        }
+}
