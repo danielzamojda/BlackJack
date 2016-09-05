@@ -1,0 +1,41 @@
+import java.util.*;
+public class Deck
+{
+   Random rand = new Random();
+    Card[] deck = new Card[52];
+    Card[] cards;
+    int count = 0; 
+    Card temp = new Card();
+   public Deck()
+    {   
+        cards = new Card[52];
+        int x=0;
+        for (int a=0; a<4; a++)
+        {
+            for (int b=1; b<14; b++)
+             {
+               deck[x] = new Card(a,b);
+               x++;
+             }
+        }
+    }  
+   public Card deal()
+    { 
+      Card x = deck[count];
+      count++;
+      return  deck[count];
+      
+    } 
+   public void shuffle()
+    {
+      for(int k=0; k<100; k++)
+      {
+        int y = rand.nextInt(52);
+        int z = rand.nextInt(52);
+        temp = deck[y];
+        deck[y]=deck[z];
+        deck[z]=temp;
+      }
+    }
+    
+}
